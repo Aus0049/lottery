@@ -11,7 +11,7 @@ import AppContainer from './containers/AppContainer'
 
 // 定义根节点的render
 // render的时候 传进去store和router
-const MOUNT_NODE = document.getElementById('root')
+const MOUNT_NODE = document.getElementById('container')
 
 let render = () => {
     const routes = require('./routes/index').default()

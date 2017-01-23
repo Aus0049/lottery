@@ -7,5 +7,13 @@ import Home from '../containers/Home'
 export const createRoutes = () => ({
     path: '/',
     component: Layout,
-    indexRoute: { component: Home }
+    indexRoute: { component: Home },
+    childRoutes: [
+        {
+            path: 'index',
+            component: Home
+        }
+    ]
 })
+
+export default createRoutes
