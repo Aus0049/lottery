@@ -1,0 +1,113 @@
+@charset "UTF-8";
+$baseSize:16px;
+
+$colorful1: #ff751f;
+$colorful2: #71b522;
+$colorful3: #3988fb;
+$colorful4: #ffd600;
+
+@function pxToRem($px) {
+  @return $px/$baseSize*1rem;
+}
+
+.wrap {
+  background: #f5f5f6;
+  height: 100%;
+}
+
+.home-container {
+  .top {
+    width: 100%;
+    position: relative;
+    height: pxToRem(250px);
+
+    h1 {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      text-align: center;
+      font-size: pxToRem(24px);
+      color: #fff;
+      z-index: 2;
+
+      transform: translate3D(-50%, -50%, 0);
+      -webkit-transform: translate3D(-50%, -50%, 0);
+    }
+    .firework-bg {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: pxToRem(250px);
+      background: #000;
+      z-index: 1;
+
+      #fireworksField {
+        width: 100%!important;
+        height: 100% !important;
+      }
+    }
+  }
+  .content {
+
+    .box {
+      display: -webkit-flex; /* Safari */
+      display: flex;
+      width: 80%;
+      position: relative;
+      margin: pxToRem(50px) auto 0 auto;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      align-items: center;
+      transform-style: preserve-3d;
+
+      .list {
+        width: 100%;
+        height: pxToRem(55px);
+        margin-bottom: pxToRem(20px);
+        border-radius: pxToRem(10px);
+        font-size: pxToRem(16px);
+        text-align: center;
+        line-height: pxToRem(55px);
+
+        opacity: 0;
+        transform: translateZ(pxToRem(-100px)) scale(50);
+        -webkit-transform: translateZ(pxToRem(-100px)) scale(50);
+        transition: all .5s;
+        -webkit-transition: all .5s;
+
+        &.color1 {
+          background: $colorful1;
+          color: #fff;
+        }
+
+        &.color2 {
+          background: $colorful2;
+          color: #fff;
+        }
+
+        &.color3 {
+          background: $colorful3;
+          color: #fff;
+        }
+
+        &.color4 {
+          background: $colorful4;
+          color: #000;
+        }
+
+        &.flyInto {
+          opacity: 1;
+          transform: translateZ(0) scale(1);
+          -webkit-transform: translateZ(0) scale(1);
+        }
+
+        .fa {
+          display: inline-block;
+          margin-right: pxToRem(5px);
+        }
+      }
+    }
+  }
+}
