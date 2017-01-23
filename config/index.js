@@ -25,7 +25,7 @@ const config = {
   // Server Configuration
   // ----------------------------------
   server_host : 'e4.dahaishen.org' || ip.address(), // use string 'localhost' to prevent exposure on local network
-  server_port : process.env.PORT || 3000,
+  server_port : process.env.PORT || 3456,
 
   // ----------------------------------
   // Compiler Configuration

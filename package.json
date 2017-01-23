@@ -1,7 +1,7 @@
 {
-  "name": "shine",
+  "name": "lottery",
   "version": "0.1.0",
-  "description": "qijiayoudao origin employee",
+  "description": "多模式抽奖小程序",
   "main": "index.js",
   "engines": {
     "node": ">=4.5.0",
@@ -59,10 +59,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Aus0049/smart-phone.git"
+    "url": "git+https://github.com/Aus0049/lottery.git"
   },
   "author": "Aus",
-  "license": "WTFPL",
+  "license": "MIT",
   "dependencies": {
     "babel-loader": "^6.2.5",
     "babel-plugin-transform-runtime": "^6.15.0",
