@@ -38,7 +38,7 @@ class Home extends React.Component {
                 </div>
                 <div className="content">
                     <div className="box">
-                        <Link className="list color1" to=""><i className="fa fa-star-o"></i>标准模式</Link>
+                        <Link className="list color1" to="/classic/user-list"><i className="fa fa-star-o"></i>标准模式</Link>
                         <Link className="list color2" to=""><i className="fa fa-dashboard"></i>转盘模式</Link>
                         <Link className="list color3" to=""><i className="fa fa-tasks"></i>老虎机模式</Link>
                         <Link className="list color4" to=""><i className="fa fa-money"></i>刮刮乐模式</Link>

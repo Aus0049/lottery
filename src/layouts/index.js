@@ -6,7 +6,9 @@ import '../static/css/reset.css'
 import '../static/css/animate.css'
 import '../static/scss/index.scss'
 import '../static/plugins/icon/font-awesome.css'
-import '../static/plugins/firework/jquery.fireworks'
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
+//import '../static/plugins/firework/jquery.fireworks'
 
 class Layout extends React.Component {
     constructor (props) {
@@ -16,7 +18,6 @@ class Layout extends React.Component {
         }
     }
     componentDidMount () {
-
     }
     render () {
         return (

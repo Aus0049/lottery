@@ -3,6 +3,7 @@
  */
 import Layout from '../layouts/index'
 import Home from '../containers/Home'
+import UserList from '../containers/Classic/UserList'
 
 export const createRoutes = () => ({
     path: '/',
@@ -12,6 +13,10 @@ export const createRoutes = () => ({
         {
             path: 'index',
             component: Home
+        },
+        {
+            path: 'classic/user-list',
+            component: UserList
         }
     ]
 })
