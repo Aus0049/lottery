@@ -11,12 +11,15 @@ class Home extends React.Component {
         }
     }
     componentDidMount () {
-        $('.firework-bg').fireworks({
-            sound: false, // sound effect
-            opacity: 0.9,
-            width: '100%'
+        //$('.firework-bg').fireworks({
+        //    sound: false, // sound effect
+        //    opacity: 0.9,
+        //    width: '100%'
+        //});
+        $('#bg').particleground({
+            dotColor: '#5cbdaa',
+            lineColor: '#5cbdaa'
         });
-
         let i = 0;
         let timer = window.setInterval(function () {
             $(".list:eq("+i+")").addClass("flyInto");
@@ -31,7 +34,7 @@ class Home extends React.Component {
             <div className="home-container">
                 <div className="top">
                     <h1>抽奖小程序</h1>
-                    <div className="firework-bg"></div>
+                    <div className="firework-bg" id="bg"></div>
                 </div>
                 <div className="content">
                     <div className="box">
