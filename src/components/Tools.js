@@ -4,27 +4,15 @@
 const Tools = {
     SwipeListWatcher () {
         let x; // 滑动初始点坐标
-        let shouldSwipe = true; // 是否应该滑动的开关
 
         $(document).on("touchstart", ".swipe-list-group li > .face", function (e) {
             // 判断当前列表是否应该清滑动
-            if($('.swipe-list-group li > .face.open').length > 0){
-                // 列表中有打开的列表 应该关掉并结束
-                shouldSwipe = false;
-                $('.swipe-list-group li > .face.open').removeClass('open').animate({left: '0px'}, 200, function () {
-                    shouldSwipe = true;
-                });
-            }
+            $('.swipe-list-group li > .face.open').removeClass('open').animate({left: '0px'}, 200);
             // 记住该位置
             x = e.originalEvent.targetTouches[0].pageX; // anchor point
         });
 
         $(document).on("touchmove", ".swipe-list-group li > .face", function (e) {
-            // 如果开关关闭则取消行动
-            if(!shouldSwipe){
-                return false;
-            }
-
             // 滑动的距离
             let change = e.originalEvent.targetTouches[0].pageX - x;
             // 判断距离是否超过100
@@ -43,20 +31,29 @@ const Tools = {
         });
 
         $(document).on("touchend", ".swipe-list-group li > .face", function (e) {
-            if(!shouldSwipe){
-                return false;
-            }
             let left = Number.parseInt(e.currentTarget.style.left);
-            let new_left;
+            let newLeft;
 
             if (left < -35) {
-                new_left = '-100px';
+                newLeft = '-100px';
             }else {
-                new_left = '0px';
+                newLeft = '0px';
             }
 
-            $(e.currentTarget).animate({left: new_left}, 200);
+            // 当手指收起的时候 如果是打开状态 添加一层透明蒙版 点击蒙版关闭所有
+            if(newLeft == '-100px'){
+                $("body").append("<div class='transparent-mask'></div>");
+                $(".swipe-list-group li > .face.open").next().addClass("up");
+            }
+
+            $(e.currentTarget).animate({left: newLeft}, 200);
             enableScroll();
+        });
+
+        $(document).on("touchstart", ".transparent-mask", function () {
+            $(".swipe-list-group li > .face.open").next().removeClass("up");
+            $('.swipe-list-group li > .face.open').removeClass('open').animate({left: '0px'}, 200);
+            $(this).remove();
         });
     }
 };

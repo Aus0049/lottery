@@ -38,6 +38,11 @@ class UserList extends React.Component {
     }
     handleChangeInput (e) {
         let value = e.target.value;
+        if(value == ""){
+            this.setState({addName: value, nameErrorText: ""});
+            return;
+        }
+
         this.setState({addName: value});
     }
     handleCheckAddName () {
@@ -57,9 +62,16 @@ class UserList extends React.Component {
             // 用户名里特殊字符
             nameErrorText = ConstText.Classic.addNameIllegal;
         } else {
-            let nameSet = new Set(nameList);
+            // 数组中的结构较复杂 不用set去重
+            let isRepeat = false;
 
-            if(nameSet.has(value)) {
+            for(let i = 0; i < nameList.length; i++){
+                if(value == nameList[i].title){
+                    isRepeat = true;
+                }
+            }
+
+            if(isRepeat == true) {
                 // 姓名去重
                 nameErrorText = ConstText.Classic.addNameRepeat;
             } else {
