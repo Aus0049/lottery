@@ -42,8 +42,10 @@ const Tools = {
 
             // 当手指收起的时候 如果是打开状态 添加一层透明蒙版 点击蒙版关闭所有
             if(newLeft == '-100px'){
-                $("body").append("<div class='transparent-mask'></div>");
-                $(".swipe-list-group li > .face.open").next().addClass("up");
+                if($(".transparent-mask").length == 0){
+                    $("body").append("<div class='transparent-mask'></div>");
+                    $(".swipe-list-group li > .face.open").next().addClass("up");
+                }
             }
 
             $(e.currentTarget).animate({left: newLeft}, 200);

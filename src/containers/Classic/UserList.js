@@ -166,6 +166,9 @@ class UserList extends React.Component {
                             <StepLabel>填写列表</StepLabel>
                         </Step>
                         <Step>
+                            <StepLabel>设置奖池</StepLabel>
+                        </Step>
+                        <Step>
                             <StepLabel>开始抽奖</StepLabel>
                         </Step>
                     </Stepper>
