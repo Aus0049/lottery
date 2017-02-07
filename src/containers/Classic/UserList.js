@@ -58,7 +58,7 @@ class UserList extends React.Component {
         } else if (value.length > 10) {
             // 用户名超过长度
             nameErrorText = ConstText.Classic.addNameLong;
-        } else if (value.length != value.match(/[A-Za-z0-9]/g).length) {
+        } else if (/[`~!@#$^&*()=|{}':;',\[\].<>\/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]/.test(value)) {
             // 用户名里特殊字符
             nameErrorText = ConstText.Classic.addNameIllegal;
         } else {
@@ -98,6 +98,9 @@ class UserList extends React.Component {
     }
     handleClose () {
         this.setState({showDialog: false});
+    }
+    handleNext () {
+
     }
     getHeadClassName () {
         const classNamePool = ["red900", "red500", "red300", "purple900", "purple500", "purple300", "blue900", "blue500", "blue300", "green900", "green500", "green300", "yellow900", "yellow500", "yellow300"];
@@ -141,6 +144,11 @@ class UserList extends React.Component {
 
         for(let i = 0; i < nameList.length; i++){
             ListDOM.push(<SwipeList key={`s-${i}`} title={nameList[i].title} colorName={nameList[i].colorName} id={i} onDelete={this_.handleDeleteList.bind(this_)} />);
+        }
+
+        // 如果人数两个人以上 可以下一步抽奖
+        if(ListDOM.length > 2){
+            ListDOM.push(<RaisedButton className="go-next" key="next" label={`当前人数: ${ListDOM.length}, 下一步`} primary={true} onTouchTap={this.handleNext.bind(this)}/>);
         }
 
         return ListDOM;
