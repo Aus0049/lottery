@@ -23,7 +23,6 @@ class UserList extends React.Component {
     constructor (props) {
         super(props)
         this.state = {
-            stepIndex: 0, // 当前进行的step数目
             showDialog: false, // 是否显示对话框
             nameList: [], // 添加的姓名列表 [{className: "red500", title: "123"}]
             addName: "", // 当前添加的用户名
@@ -148,20 +147,19 @@ class UserList extends React.Component {
 
         // 如果人数两个人以上 可以下一步抽奖
         if(ListDOM.length > 2){
-            ListDOM.push(<RaisedButton className="go-next" key="next" label={`当前人数: ${ListDOM.length}, 下一步`} primary={true} onTouchTap={this.handleNext.bind(this)}/>);
+            ListDOM.push(<RaisedButton className="go-next" key="next" label={`当前人数: ${ListDOM.length}, 下一步`} primary={true} href="/classic/set-pool"/>);
         }
 
         return ListDOM;
     }
     render () {
-        const {stepIndex} = this.state;
         const DialogDOM = this.getDialogDOM();
         const ListDOM = this.getListDOM();
 
         return (
             <MuiThemeProvider muiTheme={getMuiTheme({})}>
                 <div className="user-list-box">
-                    <Stepper activeStep={stepIndex}>
+                    <Stepper activeStep={0}>
                         <Step>
                             <StepLabel>填写列表</StepLabel>
                         </Step>
