@@ -118,65 +118,75 @@ $colorful4: #ffd600;
 }
 
 .user-list-box {
-  .swipe-list-group {
-    li {
-      display: block;
+  .add-user-box {
+    width: pxToRem(300px);
+    margin: pxToRem(30px) auto 0 auto;
+  }
+
+  .add-btn {
+    position: fixed;
+    right: pxToRem(10px);
+    bottom: pxToRem(10px);
+  }
+}
+
+// dialog 中的样式
+.add-input {
+  width: 100% !important;
+}
+
+.swipe-list-group {
+  li {
+    display: block;
+    position: relative;
+    border-bottom: 1px solid #ccc;
+
+    .face {
       position: relative;
-      border-bottom: 1px solid #ccc;
+      overflow: hidden;
+      z-index: 2;
+      background: #fff;
 
-      //&.open {
-      //  .face {
-      //    left: pxToRem(-100px);
-      //  }
-      //}
+      .user-head {
+        float: left;
+        width: 20%;
 
-      .face {
-        position: relative;
-        overflow: hidden;
-        z-index: 2;
-        background: #fff;
-
-        .user-head {
-          float: left;
-          width: 20%;
-
-          span {
-            display: block;
-            width: pxToRem(40px);
-            height: pxToRem(40px);
-            margin: pxToRem(5px) auto pxToRem(5px) auto;
-            border-radius: 50%;
-            line-height: pxToRem(40px);
-            text-align: center;
-            font-size: pxToRem(16px);
-            background: $colorful1;
-            color: #fff;
-          }
-        }
-
-        .user-name {
-          float: left;
-          width: 80%;
-          padding: pxToRem(5px);
-          font-size: pxToRem(16px);
+        span {
+          display: block;
+          width: pxToRem(40px);
+          height: pxToRem(40px);
+          margin: pxToRem(5px) auto pxToRem(5px) auto;
+          border-radius: 50%;
           line-height: pxToRem(40px);
-          color: #333;
+          text-align: center;
+          font-size: pxToRem(16px);
+          background: $colorful1;
+          color: #fff;
         }
       }
 
-      .delete-btn {
-        position: absolute;
-        right: 0;
-        top: 0;
-        width: pxToRem(100px);
-        height: pxToRem(50px);
-        background: $colorful1;
-        color: #fff;
+      .user-name {
+        float: left;
+        width: 80%;
+        padding: pxToRem(5px);
         font-size: pxToRem(16px);
-        line-height: pxToRem(50px);
-        text-align: center;
-        z-index: 1;
+        line-height: pxToRem(40px);
+        color: #333;
       }
+    }
+
+    .delete-btn {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: pxToRem(100px);
+      height: pxToRem(50px);
+      background: $colorful1;
+      color: #fff;
+      font-size: pxToRem(16px);
+      line-height: pxToRem(50px);
+      text-align: center;
+      z-index: 1;
     }
   }
 }
