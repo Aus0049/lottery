@@ -57,6 +57,81 @@ const Tools = {
             $('.swipe-list-group li > .face.open').removeClass('open').animate({left: '0px'}, 200);
             $(this).remove();
         });
+    },
+    StorageData (keyName, data) {
+        // 向本地localStorage存储数据
+        // 存储分以下几类:
+        // 1.字符串 直接存就行 不需要调用此方法 不考虑
+        // 2.[1,2,3] 数组 转成字符串存储
+        // 3.{a: 1} JSON转一下存储
+        // 4.[{a: 1}, {b: 2}] 复杂存储 大量处理
+        // 统一输出格式: "4^^^data" ^^^是特殊标记 前面数字代表类型 后面代表真正数据\
+        // 数据多了再补
+        if(!data) return;
+        let type = 0;
+        let marker = "^^^";
+        let dataString = "";
+
+        switch (data.constructor) {
+            case Array:
+                // 数组 2 4
+                if(data.length == 0 || typeof data[0] == ("string" || "number")){
+                    // [] [1,2,3] ["1", "2"]
+                    type = 2;
+                } else if(typeof data[0] == "object"){
+                    // [{},{}]
+                    type = 4;
+                }
+                break;
+            case Object:
+                // {}
+                type = 3;
+                break;
+        }
+
+        if(type == 2){
+            dataString = data.toString();
+        } else if (type == 3) {
+            dataString = JSON.stringify(data);
+        } else if (type == 4) {
+            // 将每个object转成字符串
+            let stringArray = [];
+            for(let i of data){
+                stringArray.push(JSON.stringify(i));
+            }
+            dataString = stringArray.join(",,");
+        }
+
+        dataString = type + marker + dataString;
+        localStorage.setItem(keyName, dataString);
+    },
+    ResolveStorageData (keyName) {
+        // 解析本地存储的数据
+        // 规则如上
+        if(!keyName) return;
+        let marker = "^^^";
+        let originalData = localStorage.getItem(keyName);
+        let data;
+
+        if(originalData == undefined || originalData == "" || originalData == null){
+            return "";
+        }
+
+        let [type, stringData] = originalData.split(marker);
+
+        if(type == 2){
+            data = stringData.split(",");
+        } else if (type == 3) {
+            data = JSON.parse(stringData);
+        } else if (type == 4) {
+            let temp = stringData.split(",,");
+            data = [];
+            for(let i of temp){
+                data.push(JSON.parse(i));
+            }
+        }
+
+        return data;
     }
 };
 

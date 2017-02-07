@@ -31,9 +31,17 @@ class UserList extends React.Component {
     }
     componentDidMount () {
         Tools.SwipeListWatcher();
+        // 从本地存储中取出数据 存入state
+        let data = Tools.ResolveStorageData("userList");
+        this.setState({nameList: data});
     }
     handleDeleteList (id) {
-        console.log(id);
+        // 数组中删除id项
+        let nameList = this.state.nameList;
+        nameList.splice(id, 1);
+        this.setState({nameList: nameList});
+        // 将该数组存入本地
+        Tools.StorageData("userList", nameList);
     }
     handleChangeInput (e) {
         let value = e.target.value;
@@ -91,6 +99,9 @@ class UserList extends React.Component {
             addName: "",
             nameErrorText: ""
         });
+        // 将列表存入本地数据
+        // 转成字符串存入
+        Tools.StorageData("userList", nameList);
     }
     handleOpen () {
         this.setState({showDialog: true});
@@ -142,7 +153,7 @@ class UserList extends React.Component {
         }
 
         for(let i = 0; i < nameList.length; i++){
-            ListDOM.push(<SwipeList key={`s-${i}`} title={nameList[i].title} colorName={nameList[i].colorName} id={i} onDelete={this_.handleDeleteList.bind(this_)} />);
+            ListDOM.push(<SwipeList key={`s-${i + "" + new Date().getTime()}`} title={nameList[i].title} colorName={nameList[i].colorName} id={i} onDelete={this_.handleDeleteList.bind(this_)} />);
         }
 
         // 如果人数两个人以上 可以下一步抽奖
