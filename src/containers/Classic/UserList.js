@@ -24,8 +24,10 @@ class UserList extends React.Component {
         super(props)
         this.state = {
             stepIndex: 0, // 当前进行的step数目
-            showDialog: true, // 是否显示对话框
-            addName: "" // 当前添加的用户名
+            showDialog: false, // 是否显示对话框
+            nameList: [], // 添加的姓名列表
+            addName: "", // 当前添加的用户名
+            nameErrorText: "" // 添加姓名报错信息
         }
     }
     componentDidMount () {
@@ -39,21 +41,53 @@ class UserList extends React.Component {
         this.setState({addName: value});
     }
     handleCheckAddName () {
-        let addName = this.state.addName;
-        // 检查name是否合法
-        if($.trim(addName).length == 0){
-          // 用户名输入为空
+        let {nameList, addName} = this.state;
+        let nameErrorText = "";
+        let value = $.trim(addName);
 
+        // 检查name是否合法
+        if(value.length == 0){
+            // 用户名输入为空
+            nameErrorText = ConstText.Classic.addNameNull;
+        } else if (value.length > 10) {
+            // 用户名超过长度
+            nameErrorText = ConstText.Classic.addNameLong;
+        } else if (value.length != value.match(/[A-Za-z0-9]/g).length) {
+            // 用户名里特殊字符
+            nameErrorText = ConstText.Classic.addNameIllegal;
+        } else {
+            let nameSet = new Set(nameList);
+
+            if(nameSet.has(value)) {
+                // 姓名去重
+                nameErrorText = ConstText.Classic.addNameRepeat;
+            } else {
+                nameErrorText = "";
+            }
         }
+
+        if(nameErrorText != ""){
+            this.setState({nameErrorText: nameErrorText});
+            return;
+        }
+
+        // 姓名添加通过
+        nameList.push(value);
+        this.setState({
+            showDialog: false,
+            nameList: nameList,
+            addName: "",
+            nameErrorText: ""
+        });
     }
     handleOpen () {
-
+        this.setState({showDialog: true});
     }
     handleClose () {
-
+        this.setState({showDialog: false});
     }
-    render () {
-        const {stepIndex, showDialog, addName} = this.state;
+    getDialogDOM () {
+        const {showDialog, addName, nameErrorText} = this.state;
         const actions = [
             <FlatButton
                 label="取消"
@@ -63,19 +97,41 @@ class UserList extends React.Component {
             <FlatButton
                 label="确定"
                 primary={true}
-                onTouchTap={this.handleClose.bind(this)}
+                onTouchTap={this.handleCheckAddName.bind(this)}
             />
         ];
         const DialogDOM = <Dialog
-                title="添加参与者姓名"
-                actions={actions}
-                modal={false}
-                open={showDialog}
-                className="add-dialog"
-                onRequestClose={this.handleClose.bind(this)}
-            >
-                <TextField className="add-input" hintText="姓名10字以内" value={addName} onChange={this.handleChangeInput.bind(this)}/>
-            </Dialog>;
+            title="添加参与者姓名"
+            actions={actions}
+            modal={false}
+            open={showDialog}
+            className="add-dialog"
+            onRequestClose={this.handleClose.bind(this)}
+        >
+            <TextField className="add-input" hintText="姓名10字以内" value={addName} errorText={nameErrorText} onChange={this.handleChangeInput.bind(this)}/>
+        </Dialog>;
+
+        return DialogDOM;
+    }
+    getListDOM () {
+        let ListDOM = [];
+        let this_ = this;
+        let nameList = this.state.nameList;
+
+        if(nameList.length == 0) {
+            ListDOM = <p className="no-name">点击右下角添加参与者</p>;
+        }
+
+        for(let i = 0; i < nameList.length; i++){
+            ListDOM.push(<SwipeList key={`s-${i}`} title={nameList[i]} id={i} onDelete={this_.handleDeleteList.bind(this_)} />);
+        }
+
+        return ListDOM;
+    }
+    render () {
+        const {stepIndex} = this.state;
+        const DialogDOM = this.getDialogDOM();
+        const ListDOM = this.getListDOM();
 
         return (
             <MuiThemeProvider muiTheme={getMuiTheme({})}>
@@ -89,8 +145,7 @@ class UserList extends React.Component {
                         </Step>
                     </Stepper>
                     <ul className="swipe-list-group">
-                        <SwipeList key="1" title="zby11" id="1" onDelete={this.handleDeleteList} />
-                        <SwipeList key="2" title="zby12" id="2" onDelete={this.handleDeleteList} />
+                        {ListDOM}
                     </ul>
                     <FloatingActionButton className="add-btn" onTouchTap={this.handleOpen.bind(this)}>
                         <ContentAdd />

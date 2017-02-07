@@ -136,6 +136,13 @@ $colorful4: #ffd600;
 }
 
 .swipe-list-group {
+  .no-name {
+    text-align: center;
+    line-height: pxToRem(50px);
+    color: #ccc;
+    font-size: pxToRem(16px);
+  }
+
   li {
     display: block;
     position: relative;
@@ -160,8 +167,6 @@ $colorful4: #ffd600;
           line-height: pxToRem(40px);
           text-align: center;
           font-size: pxToRem(16px);
-          background: $colorful1;
-          color: #fff;
         }
       }
 
@@ -190,3 +195,70 @@ $colorful4: #ffd600;
     }
   }
 }
+
+// 随机颜色头像池
+.red900 {
+  background: #B71C1C;
+  color: #FFF;
+}
+.red500 {
+  background: #F44336;
+  color: #FFF;
+}
+.red300 {
+  background: #E57373;
+  color: #000;
+}
+
+.purple900 {
+  background: #4A148C;
+  color: #FFF;
+}
+.purple500 {
+  background: #9C27B0;
+  color: #FFF;
+}
+.purple300 {
+  background: #BA68C8;
+  color: #FFF;
+}
+
+.blue900 {
+  background: #0D47A1;
+  color: #FFF;
+}
+.blue500 {
+  background: #2196F3;
+  color: #FFF;
+}
+.blue300 {
+  background: #64B5F6;
+  color: #000;
+}
+
+.green900 {
+  background: #1B5E20;
+  color: #FFF;
+}
+.green500 {
+  background: #4CAF50;
+  color: #000;
+}
+.green300 {
+  background: #81C784;
+  color: #000;
+}
+
+.yellow900 {
+  background: #F57F17;
+  color: #000;
+}
+.yellow500 {
+  background: #FFEB3B;
+  color: #000;
+}
+.yellow300 {
+  background: #FFF176;
+  color: #000;
+}
+
