@@ -25,7 +25,7 @@ class UserList extends React.Component {
         this.state = {
             stepIndex: 0, // 当前进行的step数目
             showDialog: false, // 是否显示对话框
-            nameList: [], // 添加的姓名列表
+            nameList: [], // 添加的姓名列表 [{className: "red500", title: "123"}]
             addName: "", // 当前添加的用户名
             nameErrorText: "" // 添加姓名报错信息
         }
@@ -44,6 +44,7 @@ class UserList extends React.Component {
         let {nameList, addName} = this.state;
         let nameErrorText = "";
         let value = $.trim(addName);
+        let this_ = this;
 
         // 检查name是否合法
         if(value.length == 0){
@@ -72,7 +73,7 @@ class UserList extends React.Component {
         }
 
         // 姓名添加通过
-        nameList.push(value);
+        nameList.push({colorName: this_.getHeadClassName(), title: value});
         this.setState({
             showDialog: false,
             nameList: nameList,
@@ -85,6 +86,10 @@ class UserList extends React.Component {
     }
     handleClose () {
         this.setState({showDialog: false});
+    }
+    getHeadClassName () {
+        const classNamePool = ["red900", "red500", "red300", "purple900", "purple500", "purple300", "blue900", "blue500", "blue300", "green900", "green500", "green300", "yellow900", "yellow500", "yellow300"];
+        return classNamePool[Math.floor(Math.random() * classNamePool.length)];
     }
     getDialogDOM () {
         const {showDialog, addName, nameErrorText} = this.state;
@@ -123,7 +128,7 @@ class UserList extends React.Component {
         }
 
         for(let i = 0; i < nameList.length; i++){
-            ListDOM.push(<SwipeList key={`s-${i}`} title={nameList[i]} id={i} onDelete={this_.handleDeleteList.bind(this_)} />);
+            ListDOM.push(<SwipeList key={`s-${i}`} title={nameList[i].title} colorName={nameList[i].colorName} id={i} onDelete={this_.handleDeleteList.bind(this_)} />);
         }
 
         return ListDOM;
