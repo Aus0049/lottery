@@ -16,6 +16,8 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import Tools from '../../components/Tools';
+import ConstText from '../../components/ConstText';
+import SwipeListLeftRight from '../../components/SwipeListLeftRight';
 
 
 class SetPool extends React.Component {
@@ -48,6 +50,77 @@ class SetPool extends React.Component {
     }
     handleCheckInput () {
         // 检查输入项是否合法 并报错
+        let {levelText, levelTextError, prizeNumber, prizeNumberError, prizeDescription, prizeDescriptionError, prizeList} = this.state;
+
+        // 名称
+        if($.trim(levelText).length == 0){
+            levelTextError = ConstText.Classic.levelTextNull;
+        } else if ($.trim(levelText).length > 6) {
+            levelTextError = ConstText.Classic.levelTextLong;
+        } else {
+            // 去重
+            let isRepeat = false;
+
+            for(let i = 0; i < prizeList.length; i++){
+                if(levelText == prizeList[i].level){
+                    isRepeat = true;
+                }
+            }
+
+            if(isRepeat == true) {
+                // 姓名去重
+                levelTextError = ConstText.Classic.levelTextRepeat;
+            } else {
+                levelTextError = "";
+            }
+        }
+
+        // 数量
+        if(prizeNumber == 0){
+            prizeNumberError = ConstText.Classic.prizeNumberNull;
+        } else if (prizeNumber > 4) {
+            prizeNumberError = ConstText.Classic.prizeNumberLong;
+        } else {
+            prizeNumberError = "";
+        }
+
+        // 描述
+        if($.trim(prizeDescription).length == 0){
+            prizeDescriptionError = ConstText.Classic.prizeDescriptionNull;
+        } else if ($.trim(prizeDescription).length > 10) {
+            prizeDescriptionError = ConstText.Classic.prizeDescriptionLong;
+        } else {
+            prizeDescriptionError = "";
+        }
+
+        if(levelTextError.length > 0 || prizeNumberError.length > 0 || prizeDescriptionError.length > 0){
+            // 有一个有错误
+            this.setState({
+                levelTextError: levelTextError,
+                prizeNumberError: prizeNumberError,
+                prizeDescriptionError: prizeDescriptionError
+            });
+            return ;
+        }
+
+        // 插入新数据
+        prizeList.push({level: levelText, number: prizeNumber, description: prizeDescription});
+
+        this.setState({
+            showDialog: false,
+            prizeList: prizeList,
+            levelText: "",
+            levelTextError: levelTextError,
+            prizeNumber: "",
+            prizeNumberError: prizeNumberError,
+            prizeDescription: "",
+            prizeDescriptionError: prizeDescriptionError
+        });
+    }
+    handleDeleteList () {
+
+    }
+    handleTopList () {
 
     }
     getDialogDOM () {
@@ -81,8 +154,33 @@ class SetPool extends React.Component {
 
         return DialogDOM;
     }
+    getListDOM () {
+        let {prizeList} = this.state;
+        let ListDOM = [];
+        let this_ = this;
+
+        if(prizeList.length == 0) {
+            ListDOM = <p className="no-list">暂无数据</p>;
+        }
+
+        for(let i = 0; i < prizeList.length; i++){
+            ListDOM.push(<SwipeListLeftRight
+                key={`s-${i + "" + new Date().getTime()}`}
+                id={i}
+                leftText={prizeList[i].level}
+                middleText={prizeList[i].number}
+                rightText={prizeList[i].description}
+                onDelete={this_.handleDeleteList.bind(this)}
+                onTop={this_.handleTopList.bind(this)}
+            />);
+        }
+
+        return ListDOM;
+
+    }
     render () {
         const DialogDOM = this.getDialogDOM();
+        const ListDOM = this.getListDOM();
 
         return (
             <MuiThemeProvider muiTheme={getMuiTheme({})}>
@@ -101,7 +199,7 @@ class SetPool extends React.Component {
                     <Chip className="alert-chip">当前人数4, 推荐一等奖1个二等奖1个</Chip>
                     <p className="prize-pool">奖品池</p>
                     <ul className="swipe-list-group">
-                        <p className="no-list">暂无数据</p>
+                        {ListDOM}
                     </ul>
                     <div className="add-list">
                         <RaisedButton label="添加奖项" primary={true} fullWidth={true} onTouchTap={this.handleOpen.bind(this)} />
