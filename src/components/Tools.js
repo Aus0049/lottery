@@ -76,11 +76,56 @@ const Tools = {
             // 判断距离是否超过100
             change = Math.min(Math.max(-100, change), 100);
 
-            if(change < 0){
+            if(change != 0){
                 $(e.currentTarget).addClass('open');
             } else {
                 $(e.currentTarget).removeClass('open');
             }
+
+            // 制作像素
+            $(e.currentTarget).css({left: change + 'px'});
+            //
+            if (change < -10) disableScroll();
+        });
+
+        $(document).on("touchend", ".swipe-list-group li > .prize-list", function (e) {
+            let left = Number.parseInt(e.currentTarget.style.left);
+            let newLeft;
+
+            if (left < -35) {
+                newLeft = '-100px';
+            } else if (left > 35) {
+                newLeft = '100px';
+            } else {
+                newLeft = '0px';
+            }
+
+            // 当手指收起的时候 如果是打开状态 添加一层透明蒙版 点击蒙版关闭所有
+            if(newLeft == '-100px'){
+                if($(".transparent-mask").length == 0){
+                    $("body").append("<div class='transparent-mask'></div>");
+                    $(".swipe-list-group li > .prize-list.open").next().addClass("up");
+                }
+            }
+
+            if(newLeft == '100px'){
+                if($(".transparent-mask").length == 0){
+                    $("body").append("<div class='transparent-mask'></div>");
+                    $(".swipe-list-group li > .prize-list.open").next().next().addClass("up");
+                }
+            }
+
+            $(e.currentTarget).animate({left: newLeft}, 200);
+            enableScroll();
+        });
+
+        $(document).on("touchstart", ".transparent-mask", function () {
+            let objDOM = $(".swipe-list-group li > .prize-list.open");
+            let objFatherDOM = objDOM.parents(".swipe-list");
+            objFatherDOM.find(".delete-btn").removeClass("up");
+            objFatherDOM.find(".top-btn").removeClass("up");
+            objDOM.removeClass('open').animate({left: '0px'}, 200);
+            $(this).remove();
         });
     },
     StorageData (keyName, data) {
