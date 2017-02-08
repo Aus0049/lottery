@@ -164,6 +164,7 @@ $colorful4: #ffd600;
 }
 
 .swipe-list-group {
+
   .no-name,
   .no-list {
     text-align: center;
@@ -172,14 +173,37 @@ $colorful4: #ffd600;
     font-size: pxToRem(16px);
   }
 
+  .empty {
+    height: pxToRem(50px);
+  }
+
   li {
     display: block;
     position: relative;
-    border-bottom: 1px solid #ccc;
+    transition: all .2s;
+    -webkit-transition: all .2s;
+
+    &.moving {
+      transform: translate(pxToRem(20px), pxToRem(-20px));
+      -webkit-transform: translate(pxToRem(20px), pxToRem(-20px));
+      height: 0;
+      z-index: 90;
+
+      &.done {
+        transform: translate(0, 0);
+        -webkit-transform: translate(0, 0);
+        z-index: auto;
+      }
+    }
+    
+    .container {
+      position: relative;
+    }
 
     .face {
       position: relative;
       overflow: hidden;
+      border-bottom: 1px solid #ccc;
       z-index: 2;
       background: #fff;
 

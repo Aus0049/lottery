@@ -63,14 +63,14 @@ const Tools = {
         // 适用于左右滑动 ←→
         let x; // 滑动初始点坐标
 
-        $(document).on("touchstart", ".swipe-list-group li > .prize-list", function (e) {
+        $(document).on("touchstart", ".swipe-list-group li .container > .prize-list", function (e) {
             // 判断当前列表是否应该清滑动
-            $('.swipe-list-group li > .prize-list.open').removeClass('open').animate({left: '0px'}, 200);
+            $('.swipe-list-group li .container > .prize-list.open').removeClass('open').animate({left: '0px'}, 200);
             // 记住该位置
             x = e.originalEvent.targetTouches[0].pageX; // anchor point
         });
 
-        $(document).on("touchmove", ".swipe-list-group li > .prize-list", function (e) {
+        $(document).on("touchmove", ".swipe-list-group li .container > .prize-list", function (e) {
             // 滑动的距离
             let change = e.originalEvent.targetTouches[0].pageX - x;
             // 判断距离是否超过100
@@ -88,7 +88,7 @@ const Tools = {
             if (change < -10) disableScroll();
         });
 
-        $(document).on("touchend", ".swipe-list-group li > .prize-list", function (e) {
+        $(document).on("touchend", ".swipe-list-group li .container > .prize-list", function (e) {
             let left = Number.parseInt(e.currentTarget.style.left);
             let newLeft;
 
@@ -104,14 +104,14 @@ const Tools = {
             if(newLeft == '-100px'){
                 if($(".transparent-mask").length == 0){
                     $("body").append("<div class='transparent-mask'></div>");
-                    $(".swipe-list-group li > .prize-list.open").next().addClass("up");
+                    $(".swipe-list-group li .container > .prize-list.open").next().addClass("up");
                 }
             }
 
             if(newLeft == '100px'){
                 if($(".transparent-mask").length == 0){
                     $("body").append("<div class='transparent-mask'></div>");
-                    $(".swipe-list-group li > .prize-list.open").next().next().addClass("up");
+                    $(".swipe-list-group li .container> .prize-list.open").next().next().addClass("up");
                 }
             }
 
@@ -120,7 +120,7 @@ const Tools = {
         });
 
         $(document).on("touchstart", ".transparent-mask", function () {
-            let objDOM = $(".swipe-list-group li > .prize-list.open");
+            let objDOM = $(".swipe-list-group li .container> .prize-list.open");
             let objFatherDOM = objDOM.parents(".swipe-list");
             objFatherDOM.find(".delete-btn").removeClass("up");
             objFatherDOM.find(".top-btn").removeClass("up");

@@ -24,6 +24,7 @@ class SetPool extends React.Component {
     constructor (props) {
         super(props)
         this.state = {
+            showChip: true,
             showDialog: false, // 是否显示对话框
             userListNumber: 0, // 用户数量
             prizeList: [], // 奖品列表 [{level: "", number: "", description: ""}]
@@ -37,7 +38,11 @@ class SetPool extends React.Component {
     }
     componentDidMount () {
         Tools.SwipeListLeftRightWatcher();
-        this.setState({userListNumber: Tools.ResolveStorageData("userList").length});
+        // 从本地获取数据
+        this.setState({
+            userListNumber: Tools.ResolveStorageData("userList").length,
+            prizeList: Tools.ResolveStorageData("prizeList")
+        });
     }
     getMaxNumber () {
         // 获取输入数量的最大值
@@ -122,8 +127,10 @@ class SetPool extends React.Component {
         }
 
         // 插入新数据
+        prizeList = prizeList || [];
         prizeList.push({level: levelText, number: prizeNumber, description: prizeDescription});
-
+        // 存入本地
+        Tools.StorageData("prizeList", prizeList);
         this.setState({
             showDialog: false,
             prizeList: prizeList,
@@ -144,11 +151,49 @@ class SetPool extends React.Component {
         obj.animate({left: "-100%"}, 200, function () {
             obj.animate({height: "0"}, 200, function () {
                 prizeList.slice(id, 1);
+                // 存入本地
+                Tools.StorageData("prizeList", prizeList);
                 this_.setState({prizeList: prizeList});
             });
         });
     }
-    handleTopList () {
+    handleTopList (id) {
+        // 置顶列
+        let obj = $("#swipe-list-" + id);
+        let firstList = $(".swipe-list-group li:eq(0)");
+        let objCurrentTop = obj[0].offsetTop;
+        let listTop = firstList[0].offsetTop;
+        let dist = listTop - objCurrentTop - 50 + "px";
+        let prizeList = this.state.prizeList;
+        let this_ = this;
+
+        // 动画开始 一共 .2 + .4 + .2 = .8s
+        $(".swipe-list-group").addClass("moving");
+        firstList.before("<div class='empty'></div>");
+        obj.addClass("moving");
+        obj.find(".container").animate({top: dist}, 400, function () {
+            obj.addClass("done");
+            obj.find(".top-btn").removeClass("up");
+            obj.find(".prize-list").animate({left: '0'}, 200, function () {
+                // 动画完成更新数据
+                let movingData = prizeList[id];
+                prizeList.splice(id, 1);
+                prizeList.unshift(movingData);
+                // 通知修改
+                this_.setState({prizeList: prizeList});
+                // 保存数据
+                Tools.StorageData("prizeList", prizeList);
+                // 删除蒙版
+                $(".transparent-mask").remove();
+                $(".empty").remove();
+            });
+        });
+    }
+    handleDeleteChip () {
+        let this_ = this;
+        $(".alert-chip").animate({height: 0}, 200, function () {
+            this_.setState({showChip: false});
+        });
 
     }
     getDialogDOM () {
@@ -215,9 +260,20 @@ class SetPool extends React.Component {
         return ListDOM;
 
     }
+    getChipDOM () {
+        let chipDOM = [];
+        let showChip = this.state.showChip;
+
+        if(showChip == true){
+            chipDOM.push(<Chip key="chip" className="alert-chip" onRequestDelete={this.handleDeleteChip.bind(this)}>当前人数4, 推荐一等奖1个二等奖1个</Chip>);
+        }
+
+        return chipDOM;
+    }
     render () {
         const DialogDOM = this.getDialogDOM();
         const ListDOM = this.getListDOM();
+        const ChipDOM = this.getChipDOM();
 
         return (
             <MuiThemeProvider muiTheme={getMuiTheme({})}>
@@ -233,7 +289,7 @@ class SetPool extends React.Component {
                             <StepLabel>开始抽奖</StepLabel>
                         </Step>
                     </Stepper>
-                    <Chip className="alert-chip">当前人数4, 推荐一等奖1个二等奖1个</Chip>
+                    {ChipDOM}
                     <p className="prize-pool">奖品池</p>
                     <ul className="swipe-list-group">
                         {ListDOM}
