@@ -110,9 +110,6 @@ class UserList extends React.Component {
     handleClose () {
         this.setState({showDialog: false});
     }
-    handleNext () {
-
-    }
     getHeadClassName () {
         const classNamePool = ["red900", "red500", "red300", "purple900", "purple500", "purple300", "blue900", "blue500", "blue300", "green900", "green500", "green300", "yellow900", "yellow500", "yellow300"];
         return classNamePool[Math.floor(Math.random() * classNamePool.length)];

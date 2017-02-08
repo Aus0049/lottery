@@ -147,10 +147,14 @@ $colorful4: #ffd600;
 
   .prize-pool {
     display: block;
-    line-height: pxToRem(50px);
+    line-height: pxToRem(40px);
     font-size: pxToRem(16px);
     text-align: center;
     color: #333;
+  }
+
+  .add-list {
+    padding: pxToRem(10px);
   }
 }
 
@@ -160,7 +164,8 @@ $colorful4: #ffd600;
 }
 
 .swipe-list-group {
-  .no-name {
+  .no-name,
+  .no-list {
     text-align: center;
     line-height: pxToRem(50px);
     color: #ccc;
