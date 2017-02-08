@@ -25,6 +25,7 @@ class SetPool extends React.Component {
         super(props)
         this.state = {
             showDialog: false, // 是否显示对话框
+            userListNumber: 0, // 用户数量
             prizeList: [], // 奖品列表 [{level: "", number: "", description: ""}]
             levelText: "",
             levelTextError: "",
@@ -36,6 +37,21 @@ class SetPool extends React.Component {
     }
     componentDidMount () {
         Tools.SwipeListLeftRightWatcher();
+        this.setState({userListNumber: Tools.ResolveStorageData("userList").length});
+    }
+    getMaxNumber () {
+        // 获取输入数量的最大值
+        let {prizeList, userListNumber} = this.state;
+        let used = 0;
+        let unused = 0;
+
+        for(let i of prizeList){
+            used += Number.parseInt(i.number);
+        }
+
+        unused = userListNumber - used;
+
+        return unused;
     }
     handleOpen () {
         this.setState({showDialog: true});
@@ -75,10 +91,12 @@ class SetPool extends React.Component {
             }
         }
 
+        let maxNumber = this.getMaxNumber();
+
         // 数量
         if(prizeNumber == 0){
             prizeNumberError = ConstText.Classic.prizeNumberNull;
-        } else if (prizeNumber > 4) {
+        } else if (prizeNumber > maxNumber) {
             prizeNumberError = ConstText.Classic.prizeNumberLong;
         } else {
             prizeNumberError = "";
@@ -160,7 +178,7 @@ class SetPool extends React.Component {
         let this_ = this;
 
         if(prizeList.length == 0) {
-            ListDOM = <p className="no-list">暂无数据</p>;
+            ListDOM.push(<p key="no-data" className="no-list">暂无数据</p>);
         }
 
         for(let i = 0; i < prizeList.length; i++){
@@ -173,6 +191,15 @@ class SetPool extends React.Component {
                 onDelete={this_.handleDeleteList.bind(this)}
                 onTop={this_.handleTopList.bind(this)}
             />);
+        }
+
+        let number = this.getMaxNumber();
+        if(number > 0){
+            ListDOM.push(
+                <div className="add-list" key="btn">
+                    <RaisedButton label="添加奖项" primary={true} fullWidth={true} onTouchTap={this.handleOpen.bind(this)} />
+                </div>
+            );
         }
 
         return ListDOM;
@@ -201,9 +228,6 @@ class SetPool extends React.Component {
                     <ul className="swipe-list-group">
                         {ListDOM}
                     </ul>
-                    <div className="add-list">
-                        <RaisedButton label="添加奖项" primary={true} fullWidth={true} onTouchTap={this.handleOpen.bind(this)} />
-                    </div>
                     {DialogDOM}
                 </div>
             </MuiThemeProvider>

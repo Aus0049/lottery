@@ -15,7 +15,7 @@ class SwipeListLeftRight extends React.Component {
             <li className="swipe-list">
                 <div className="face prize-list">
                     <span className="one-third">{leftText}</span>
-                    <span className="one-third">{middleText}</span>
+                    <span className="one-third">数量:{middleText}</span>
                     <span className="one-third">{rightText}</span>
                 </div>
                 <div className="delete-btn" onTouchTap={onDelete.bind(this, id)}>删除</div>
