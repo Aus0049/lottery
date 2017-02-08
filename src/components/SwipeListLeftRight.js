@@ -12,7 +12,7 @@ class SwipeListLeftRight extends React.Component {
         const {leftText, middleText, rightText, onDelete, onTop, id} = this.props;
 
         return (
-            <li className="swipe-list">
+            <li className="swipe-list" id={`swipe-list-${id}`}>
                 <div className="face prize-list">
                     <span className="one-third">{leftText}</span>
                     <span className="one-third">数量:{middleText}</span>

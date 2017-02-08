@@ -38,10 +38,17 @@ class UserList extends React.Component {
     handleDeleteList (id) {
         // 数组中删除id项
         let nameList = this.state.nameList;
-        nameList.splice(id, 1);
-        this.setState({nameList: nameList});
-        // 将该数组存入本地
-        Tools.StorageData("userList", nameList);
+        let obj = $("#swipe-list-right-" + id);
+        let this_ = this;
+
+        obj.animate({left: "-100%"}, 200, function () {
+            obj.animate({height: "0"}, 200, function () {
+                nameList.splice(id, 1);
+                this_.setState({nameList: nameList});
+                // 将该数组存入本地
+                Tools.StorageData("userList", nameList);
+            });
+        });
     }
     handleChangeInput (e) {
         let value = e.target.value;

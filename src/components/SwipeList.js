@@ -13,7 +13,7 @@ class SwipeList extends React.Component {
         const FirstLetter = this.getFirstLetter(title);
 
         return (
-            <li className="swipe-list">
+            <li className="swipe-list" id={`swipe-list-right-${id}`}>
                 <div className="face">
                     <div className="user-head"><span className={colorName}>{FirstLetter}</span></div>
                     <div className="user-name">{title}</div>

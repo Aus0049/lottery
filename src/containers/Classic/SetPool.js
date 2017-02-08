@@ -135,8 +135,18 @@ class SetPool extends React.Component {
             prizeDescriptionError: prizeDescriptionError
         });
     }
-    handleDeleteList () {
+    handleDeleteList (id) {
+        // 删除列
+        let obj = $("#swipe-list-" + id);
+        let prizeList = this.state.prizeList;
+        let this_ = this;
 
+        obj.animate({left: "-100%"}, 200, function () {
+            obj.animate({height: "0"}, 200, function () {
+                prizeList.slice(id, 1);
+                this_.setState({prizeList: prizeList});
+            });
+        });
     }
     handleTopList () {
 
