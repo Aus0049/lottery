@@ -3,6 +3,7 @@
  */
 const Tools = {
     SwipeListWatcher () {
+        // 只适用于左划⬅️
         let x; // 滑动初始点坐标
 
         $(document).on("touchstart", ".swipe-list-group li > .face", function (e) {
@@ -56,6 +57,30 @@ const Tools = {
             $(".swipe-list-group li > .face.open").next().removeClass("up");
             $('.swipe-list-group li > .face.open').removeClass('open').animate({left: '0px'}, 200);
             $(this).remove();
+        });
+    },
+    SwipeListLeftRightWatcher () {
+        // 适用于左右滑动 ←→
+        let x; // 滑动初始点坐标
+
+        $(document).on("touchstart", ".swipe-list-group li > .prize-list", function (e) {
+            // 判断当前列表是否应该清滑动
+            $('.swipe-list-group li > .prize-list.open').removeClass('open').animate({left: '0px'}, 200);
+            // 记住该位置
+            x = e.originalEvent.targetTouches[0].pageX; // anchor point
+        });
+
+        $(document).on("touchmove", ".swipe-list-group li > .prize-list", function (e) {
+            // 滑动的距离
+            let change = e.originalEvent.targetTouches[0].pageX - x;
+            // 判断距离是否超过100
+            change = Math.min(Math.max(-100, change), 100);
+
+            if(change < 0){
+                $(e.currentTarget).addClass('open');
+            } else {
+                $(e.currentTarget).removeClass('open');
+            }
         });
     },
     StorageData (keyName, data) {

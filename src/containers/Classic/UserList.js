@@ -92,6 +92,7 @@ class UserList extends React.Component {
         }
 
         // 姓名添加通过
+        nameList = nameList || [];
         nameList.push({colorName: this_.getHeadClassName(), title: value});
         this.setState({
             showDialog: false,

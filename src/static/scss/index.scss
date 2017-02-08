@@ -134,6 +134,25 @@ $colorful4: #ffd600;
   }
 }
 
+.set-pool-box {
+  .alert-chip {
+    width: 100% !important;
+
+    span {
+      display: block;
+      margin: 0 auto;
+    }
+  }
+
+  .prize-pool {
+    display: block;
+    line-height: pxToRem(50px);
+    font-size: pxToRem(16px);
+    text-align: center;
+    color: #333;
+  }
+}
+
 // dialog 中的样式
 .add-input {
   width: 100% !important;
@@ -157,6 +176,22 @@ $colorful4: #ffd600;
       overflow: hidden;
       z-index: 2;
       background: #fff;
+
+      &.prize-list {
+        display: flex;
+        display: -webkit-flex;
+        justify-content: space-between;
+
+        .one-third {
+          width: 30%;
+          height: pxToRem(50px);
+          line-height: pxToRem(50px);
+          text-align: center;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space:nowrap;
+        }
+      }
 
       .user-head {
         float: left;
@@ -191,6 +226,24 @@ $colorful4: #ffd600;
       width: pxToRem(100px);
       height: pxToRem(50px);
       background: #F44336;
+      color: #fff;
+      font-size: pxToRem(16px);
+      line-height: pxToRem(50px);
+      text-align: center;
+      z-index: 1;
+
+      &.up {
+        z-index: 100;
+      }
+    }
+
+    .top-btn {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: pxToRem(100px);
+      height: pxToRem(50px);
+      background: #2196F3;
       color: #fff;
       font-size: pxToRem(16px);
       line-height: pxToRem(50px);
