@@ -215,7 +215,7 @@ class SetPool extends React.Component {
         const DialogDOM = <Dialog
             title="添加奖池"
             actions={actions}
-            modal={false}
+            modal={true}
             open={showDialog}
             className="add-dialog"
             onRequestClose={this.handleClose.bind(this)}
