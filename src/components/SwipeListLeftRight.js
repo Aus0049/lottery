@@ -1,9 +1,6 @@
 /**
  * Created by Aus on 17/2/8.
  */
-/**
- * Created by Aus on 17/2/6.
- */
 import React from 'react'
 
 

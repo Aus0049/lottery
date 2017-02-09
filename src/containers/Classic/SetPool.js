@@ -255,6 +255,14 @@ class SetPool extends React.Component {
                     <RaisedButton label="添加奖项" primary={true} fullWidth={true} onTouchTap={this.handleOpen.bind(this)} />
                 </div>
             );
+
+            if(prizeList.length != 0) {
+                ListDOM.push(
+                    <div className="next" key="next-btn">
+                        <RaisedButton label="开始抽奖" secondary={true} fullWidth={true} href="/classic/play" />
+                    </div>
+                );
+            }
         }
 
         return ListDOM;

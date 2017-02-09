@@ -156,6 +156,10 @@ $colorful4: #ffd600;
   .add-list {
     padding: pxToRem(10px);
   }
+
+  .next {
+    padding: 0 pxToRem(10px) 0 pxToRem(10px);
+  }
 }
 
 // dialog 中的样式

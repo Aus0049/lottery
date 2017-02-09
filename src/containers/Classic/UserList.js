@@ -163,7 +163,7 @@ class UserList extends React.Component {
 
         // 如果人数两个人以上 可以下一步抽奖
         if(ListDOM.length > 2){
-            ListDOM.push(<RaisedButton className="go-next" key="next" label={`当前人数: ${ListDOM.length}, 下一步`} primary={true} href="/classic/set-pool"/>);
+            ListDOM.push(<RaisedButton className="go-next" key="next" label={`当前人数: ${ListDOM.length}, 下一步`} secondary={true} href="/classic/set-pool"/>);
         }
 
         return ListDOM;
