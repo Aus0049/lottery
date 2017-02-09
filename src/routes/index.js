@@ -5,6 +5,7 @@ import Layout from '../layouts/index'
 import Home from '../containers/Home'
 import UserList from '../containers/Classic/UserList'
 import SetPool from '../containers/Classic/SetPool'
+import ClassicPlay from '../containers/Classic/Play'
 
 export const createRoutes = () => ({
     path: '/',
@@ -25,6 +26,10 @@ export const createRoutes = () => ({
                 {
                     path: 'set-pool',
                     component: SetPool
+                },
+                {
+                    path: 'play',
+                    component: ClassicPlay
                 }
             ]
         }

@@ -162,6 +162,79 @@ $colorful4: #ffd600;
   }
 }
 
+// 经典摇奖
+.classic-play-box {
+  .reciprocal-box {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+  }
+
+  .number {
+    font-size: pxToRem(80px);
+    text-align: center;
+
+    &.hide {
+      display: none;
+    }
+
+    &.play {
+      animation: LargeToRegular 1s;
+      -webkit-animation: LargeToRegular 1s;
+    }
+
+    &.one {
+      color: #1B5E20;
+    }
+
+    &.two {
+      color: #F57F17;
+    }
+
+    &.three {
+      color: #BF360C;
+    }
+  }
+}
+
+@keyframes LargeToRegular {
+  0% {
+    opacity: 0.01;
+    transform: scale(30);
+    -webkit-transform: scale(30);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1);
+    -webkit-transform: scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    -webkit-transform: scale(1);
+  }
+}
+
+@-webkit-keyframes LargeToRegular {
+  0% {
+    opacity: 0.01;
+    transform: scale(30);
+    -webkit-transform: scale(30);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1);
+    -webkit-transform: scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    -webkit-transform: scale(1);
+  }
+}
+
 // dialog 中的样式
 .add-input {
   width: 100% !important;
