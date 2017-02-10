@@ -170,31 +170,92 @@ $colorful4: #ffd600;
     top: 50%;
     transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%, -50%);
+
+    .number {
+      font-size: pxToRem(80px);
+      text-align: center;
+
+      &.hide {
+        display: none;
+      }
+
+      &.play {
+        animation: LargeToRegular 1s;
+        -webkit-animation: LargeToRegular 1s;
+      }
+
+      &.one {
+        color: #1B5E20;
+      }
+
+      &.two {
+        color: #F57F17;
+      }
+
+      &.three {
+        color: #BF360C;
+      }
+    }
   }
 
-  .number {
-    font-size: pxToRem(80px);
-    text-align: center;
+  .result-box {
+    border-top: pxToRem(1px) solid #ccc;
+    background: #fff;
 
-    &.hide {
-      display: none;
-    }
+    .list {
+      .level {
+        display: block;
+        padding-left: pxToRem(16px);
+        border-top: pxToRem(1px) solid #ccc;
+        border-bottom: pxToRem(1px) solid #ccc;
+        font-size: pxToRem(16px);
+        line-height: pxToRem(40px);
+        color: #999;
 
-    &.play {
-      animation: LargeToRegular 1s;
-      -webkit-animation: LargeToRegular 1s;
-    }
+        &:first-of-type {
+          border-top: none;
+        }
+      }
 
-    &.one {
-      color: #1B5E20;
-    }
+      .li {
+        display: flex;
+        display: -webkit-flex;
+        justify-content: space-between;
 
-    &.two {
-      color: #F57F17;
-    }
+        div {
+          height: pxToRem(50px);
+          line-height: pxToRem(50px);
+          text-align: center;
+          font-size: pxToRem(16px);
+          color: #333;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space:nowrap;
 
-    &.three {
-      color: #BF360C;
+          &.head-box {
+            width: 20%;
+
+            .head {
+              display: block;
+              width: pxToRem(40px);
+              height: pxToRem(40px);
+              margin: pxToRem(5px) auto 0 auto;
+              border-radius: 50%;
+              text-align: center;
+              line-height: pxToRem(40px);
+              font-size: pxToRem(16px);
+            }
+          }
+
+          &.title {
+            width: 40%;
+          }
+
+          &.prize {
+            width: 40%;
+          }
+        }
+      }
     }
   }
 }

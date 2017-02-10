@@ -68,16 +68,27 @@ class Play extends React.Component {
             return DOM;
         }
 
+        // 生成结果
         DOM.push(
             <div className="result-box" key="result-box">
-                <List>
-                    <Subheader>Recent chats</Subheader>
-                    <ListItem
-                        primaryText="Brendan Lim"
-                        leftAvatar={<div>123</div>}
-                        rightIcon={<div>asd</div>}
-                    />
-                </List>
+                <ul className="list">
+                    <li className="level">一等奖</li>
+                    <li className="li">
+                        <div className="head-box">
+                            <span className="head">z</span>
+                        </div>
+                        <div className="title">zby</div>
+                        <div className="prize">电脑一台</div>
+                    </li>
+                    <li className="level">一等奖</li>
+                    <li className="li">
+                        <div className="head-box">
+                            <span className="head">z</span>
+                        </div>
+                        <div className="title">zby</div>
+                        <div className="prize">电脑一台</div>
+                    </li>
+                </ul>
             </div>
         );
 
