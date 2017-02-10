@@ -11,19 +11,21 @@ import {
 } from 'material-ui/Stepper';
 import {List, ListItem} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
+import Tools from '../../components/Tools';
 
 class Play extends React.Component {
     constructor (props) {
         super(props)
         this.state = {
             showAnimate: false, // 展示摇奖倒数动画
-            resultData: [] // 结果数据
+            resultData: [] // 结果数据 [{level: '', name: '', colorClass: ''}]
         }
     }
     componentDidMount () {
         let obj = $(".number");
         let father = $(".reciprocal-box");
         let this_ = this;
+        this.getResultData();
 
         let timer = setInterval(function () {
             if(obj.length != 0){
@@ -41,6 +43,58 @@ class Play extends React.Component {
                 }, 1000);
             }
         }, 50);
+    }
+    getResultData () {
+        let userList = Tools.ResolveStorageData("userList");
+        let prizeList = Tools.ResolveStorageData("prizeList");
+        // 选出username
+        let nameList =  [];
+        // 获奖名字list
+        let hasPrizeNameList = [];
+
+        for(let i of userList){
+            nameList.push(i.title);
+        }
+
+        let resultData = [];
+
+
+        for(let item of prizeList){
+            let level = item.level;
+            let prizeNumber = item.number;
+
+            for(let j = 0; j < prizeNumber; j++){
+                // 选出一个随机中奖者
+                let user = this.getNoRepeatRandomNumberFromArray(nameList, hasPrizeNameList);
+                hasPrizeNameList.push(user);
+                // 制作数据
+                let colorName = this.getColorClassByName(user, userList);
+                resultData.push({level: level, name: user, colorName: colorName});
+            }
+        }
+
+        this.setState({
+            resultData: resultData
+        });
+    }
+    getColorClassByName (name, userList) {
+        // 根据name 选出userList中 name那条数据的className
+        for(let i of userList){
+            if(i.title == name){
+                return i.colorName;
+            }
+        }
+    }
+    getNoRepeatRandomNumberFromArray (originalArray, usedArray) {
+        // 从俩个参数的差级中选出一个随机数
+        usedArray = new Set([...usedArray]);
+        // 差集
+        let difference = new Set(originalArray.filter(x => !usedArray.has(x)));
+        //
+        difference = [...difference];
+        let result = difference[Math.floor(Math.random() * difference.length)];
+
+        return result;
     }
     getAnimateDOM () {
         let showAnimate = this.state.showAnimate;
@@ -62,11 +116,14 @@ class Play extends React.Component {
     }
     getResultListDOM () {
         let showAnimate = this.state.showAnimate;
+        let resultData = this.state.resultData;
         let DOM = [];
 
         if(showAnimate){
             return DOM;
         }
+
+        console.log(resultData);
 
         // 生成结果
         DOM.push(
