@@ -200,14 +200,14 @@ $colorful4: #ffd600;
 
   .result-box {
     border-top: pxToRem(1px) solid #ccc;
-    background: #fff;
 
     .list {
+      background: #fff;
+
       .level {
         display: block;
         padding-left: pxToRem(16px);
         border-top: pxToRem(1px) solid #ccc;
-        border-bottom: pxToRem(1px) solid #ccc;
         font-size: pxToRem(16px);
         line-height: pxToRem(40px);
         color: #999;
@@ -256,6 +256,10 @@ $colorful4: #ffd600;
           }
         }
       }
+    }
+
+    .go-index {
+      padding: pxToRem(10px);
     }
   }
 }

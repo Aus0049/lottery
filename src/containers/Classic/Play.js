@@ -11,14 +11,16 @@ import {
 } from 'material-ui/Stepper';
 import {List, ListItem} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
+import RaisedButton from 'material-ui/RaisedButton';
 import Tools from '../../components/Tools';
 
 class Play extends React.Component {
     constructor (props) {
         super(props)
         this.state = {
-            showAnimate: false, // 展示摇奖倒数动画
-            resultData: [] // 结果数据 [{level: '', name: '', colorClass: ''}]
+            stepNumber: 2,
+            showAnimate: true, // 展示摇奖倒数动画
+            resultData: [] // 结果数据 [{level: '', name: '', colorClass: '', prize: ''}]
         }
     }
     componentDidMount () {
@@ -38,7 +40,9 @@ class Play extends React.Component {
                     setTimeout(function () {
                         obj.eq(1).addClass("hide");
                         obj.eq(2).removeClass("hide").addClass("play");
-                        this_.setState({showAnimate: false});
+                        setTimeout(function () {
+                            this_.setState({showAnimate: false, stepNumber: 3});
+                        }, 1000);
                     }, 1000);
                 }, 1000);
             }
@@ -58,10 +62,10 @@ class Play extends React.Component {
 
         let resultData = [];
 
-
         for(let item of prizeList){
             let level = item.level;
             let prizeNumber = item.number;
+            let prizeDescription = item.description;
 
             for(let j = 0; j < prizeNumber; j++){
                 // 选出一个随机中奖者
@@ -69,7 +73,7 @@ class Play extends React.Component {
                 hasPrizeNameList.push(user);
                 // 制作数据
                 let colorName = this.getColorClassByName(user, userList);
-                resultData.push({level: level, name: user, colorName: colorName});
+                resultData.push({level: level, name: user, colorName: colorName, prize: prizeDescription});
             }
         }
 
@@ -119,45 +123,65 @@ class Play extends React.Component {
         let resultData = this.state.resultData;
         let DOM = [];
 
-        if(showAnimate){
+        if(showAnimate || resultData.length == 0){
             return DOM;
         }
 
-        console.log(resultData);
+        // levelSet
+        let levelSet = new Set();
+
+        for(let i in resultData){
+            levelSet.add(i.level);
+        }
+
+        let currentLevel;
+        let dataDOM = [];
+        let keyLevelCount = 0;
+        let keyCount = 0;
+
+        for(let i of resultData){
+            if(i.level != currentLevel){
+                dataDOM.push(
+                    <li className="level" key={keyLevelCount}>{i.level}</li>
+                );
+                currentLevel = i.level;
+                keyLevelCount++;
+            }
+
+            dataDOM.push(
+                <li className="li" key={`li-${keyCount}`}>
+                    <div className="head-box">
+                        <span className={`head ${i.colorName}`}>{i.name.substr(0,1)}</span>
+                    </div>
+                    <div className="title">{i.name}</div>
+                    <div className="prize">{i.prize}</div>
+                </li>
+            );
+            keyCount++;
+        }
 
         // 生成结果
         DOM.push(
             <div className="result-box" key="result-box">
                 <ul className="list">
-                    <li className="level">一等奖</li>
-                    <li className="li">
-                        <div className="head-box">
-                            <span className="head">z</span>
-                        </div>
-                        <div className="title">zby</div>
-                        <div className="prize">电脑一台</div>
-                    </li>
-                    <li className="level">一等奖</li>
-                    <li className="li">
-                        <div className="head-box">
-                            <span className="head">z</span>
-                        </div>
-                        <div className="title">zby</div>
-                        <div className="prize">电脑一台</div>
-                    </li>
+                    {dataDOM}
                 </ul>
+                <div className="go-index" key="index-btn">
+                    <RaisedButton label="返回首页" secondary={true} fullWidth={true} href="/" />
+                </div>
             </div>
         );
 
         return DOM;
     }
     render () {
+        const stepNumber = this.state.stepNumber;
         const animateDOM = this.getAnimateDOM();
         const resultList = this.getResultListDOM();
         return (
             <MuiThemeProvider muiTheme={getMuiTheme({})}>
                 <div className="classic-play-box">
-                    <Stepper activeStep={2}>
+                    <Stepper activeStep={stepNumber}>
                         <Step>
                             <StepLabel>填写列表</StepLabel>
                         </Step>
