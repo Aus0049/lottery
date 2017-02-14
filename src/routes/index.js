@@ -3,7 +3,8 @@
  */
 import Layout from '../layouts/index'
 import Home from '../containers/Home'
-import UserList from '../containers/Classic/UserList'
+import ClassicUserList from '../containers/Classic/UserList'
+import TurntableUserList from '../containers/Turntable/UserList'
 import SetPool from '../containers/Classic/SetPool'
 import ClassicPlay from '../containers/Classic/Play'
 
@@ -21,7 +22,7 @@ export const createRoutes = () => ({
             childRoutes: [
                 {
                     path: 'user-list',
-                    component: UserList
+                    component: ClassicUserList
                 },
                 {
                     path: 'set-pool',
@@ -30,6 +31,15 @@ export const createRoutes = () => ({
                 {
                     path: 'play',
                     component: ClassicPlay
+                }
+            ]
+        },
+        {
+            path: 'turntable',
+            childRoutes: [
+                {
+                    path: 'user-list',
+                    component: TurntableUserList
                 }
             ]
         }

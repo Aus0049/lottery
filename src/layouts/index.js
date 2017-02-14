@@ -17,8 +17,6 @@ class Layout extends React.Component {
             skin: 0
         }
     }
-    componentDidMount () {
-    }
     render () {
         return (
             <div className="wrap" id={`skin-${this.state.skin}`}>
